@@ -5,7 +5,7 @@ import ballerina/test;
 function testGetGreetingPactTest() returns error? {
     GreetingResponse actualResponse = check getGreeting();
         GreetingResponse expectedResponse = {
-        message: "Hello World"
+        message: "Hello world"
     };
 
     test:assertEquals(actualResponse, expectedResponse);

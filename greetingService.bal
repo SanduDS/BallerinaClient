@@ -15,6 +15,12 @@ public isolated function getGreetingHi(string name) returns GreetingResponse|err
     return response;
 }
 
+public isolated function getGreetingWelcome(string name) returns GreetingResponse|error {
+    http:Client greetingBalService = check new (baseURL);
+    GreetingResponse response = check greetingBalService->get("/welcome/" + name);
+    return response;
+}
+
 public type GreetingResponse record {|
     string message;
 |};
