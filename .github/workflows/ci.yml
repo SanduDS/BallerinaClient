@@ -33,7 +33,11 @@ jobs:
           curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v2.0.10/pact-2.0.10-linux-x86_64.tar.gz
           tar xzf pact-2.0.10-linux-x86_64.tar.gz
           cd pact/bin
-          ./pact-mock-service --consumer $PACT_CONSUMER --provider $PACT_PROVIDER --port $PACT_SERVER_PORT --pact-dir $PACT_DIR --log $LOG_PATH --log-level $LOG_LEVEL &
+          ./pact-mock-service --consumer $PACT_CONSUMER --provider $PACT_PROVIDER \
+            --port $PACT_SERVER_PORT \
+            --pact-dir $PACT_DIR \
+            --log $LOG_PATH \
+            --log-level $LOG_LEVEL &
           cd ..
         env:
           PACT_CONSUMER: "BallerinaClient"
@@ -66,7 +70,13 @@ jobs:
       - name: Can I deploy to development environment
         run: |
           cd pact/bin
-          ./pact-broker can-i-deploy -a=BallerinaClient -b=$PACT_BROKER_URL --branch=main --broker-username=$PACT_BROKER_USERNAME --broker-password=$PACT_BROKER_PASSWORD --to-environment=dev
+          ./pact-broker can-i-deploy \
+            -a=BallerinaClient \
+            -b=$PACT_BROKER_URL \
+            --branch=main \
+            --broker-username=$PACT_BROKER_USERNAME \
+            --broker-password=$PACT_BROKER_PASSWORD \
+            --to-environment=dev
         env:
           PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
           PACT_BROKER_USERNAME: ${{ secrets.PACT_BROKER_USERNAME }}
@@ -76,10 +86,16 @@ jobs:
         run: |
           echo "deployed"
         
-      - name: Update pact broker
+      - name: Update pact broker on deployment status
         run: |
           cd pact/bin
-          ./pact-broker record-deployment --environment=dev -a=BallerinaClient --version=0.1.0  --broker-username=$PACT_BROKER_USERNAME --broker-password=$PACT_BROKER_PASSWORD -b=$PACT_BROKER_URL
+          ./pact-broker record-deployment \
+            --environment=dev \
+            -a=BallerinaClient \
+            --version=0.1.0 \
+            --broker-username=$PACT_BROKER_USERNAME \
+            --broker-password=$PACT_BROKER_PASSWORD \
+            -b=$PACT_BROKER_URL
         env:
           PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
           PACT_BROKER_USERNAME: ${{ secrets.PACT_BROKER_USERNAME }}
