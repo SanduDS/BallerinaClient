@@ -1,6 +1,6 @@
 [package]
 org = "dhanushkas"
-name = "BallerinaClient"
+name = "UserServiceClient"
 version = "0.1.0"
 distribution = "2201.7.2"
 

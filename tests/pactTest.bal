@@ -1,7 +1,9 @@
 import ballerina/test;
+import ballerina/http;
 import dhanushkasd/pact;
 
 pact:Client pactMockServerClient = check new ("localhost:1234");
+http:Client userServiceClient =  check new("localhost:1234");
 
 @test:BeforeGroups { value:["pact"]}
 function beforeGroupsFunc() returns error? {
@@ -19,9 +21,9 @@ function AfterEach() returns error? {
 @test:Config {enable: true, groups: ["pact"]}
 function getGreetingPactTest() returns error? {
     pact:Interaction interaction = {
-        description: "Get hello world greeting from ballerina service",
+        description: "Get user Org handler by user Id",
         request: {
-            path: "/hello",
+            path: "/user/001",
             method: "GET"
         },
         response: {
@@ -30,49 +32,15 @@ function getGreetingPactTest() returns error? {
                 "Content-Type": "application/json"
             },
             body: {
-                message: "Hello world"
+                "name":"Dhanushka", "id":"001", "orgId":"choreoogid001", "orgHandle":"mytestorg"
             }
         }
     };
 
     string registrationStatus = check pactMockServerClient->registerInteraction(interaction);
     test:assertEquals(registrationStatus.toString().trim(), "Registered interactions", "Registration fails");
-    GreetingResponse actualResponse = check getGreeting();
-    GreetingResponse expectedResponse = {
-        message: "Hello world"
-    };
-
-    test:assertEquals(actualResponse, expectedResponse);
-}
-
-
-@test:Config {enable: true, groups: ["pact"]}
-function getGreetingHiPactTest() returns error? {
-    pact:Interaction interaction = {
-        description: "Get hi greeting from ballerina service",
-        request: {
-            path: "/hi/Ballerina",
-            method: "GET"
-        },
-        response: {
-            status: 200,
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: {
-                message: "Hi Ballerina"
-            }
-        }
-    };
-
-    string registrationStatus = check pactMockServerClient->registerInteraction(interaction);
-    test:assertEquals(registrationStatus.toString().trim(), "Registered interactions", "Registration fails");
-    GreetingResponse actualResponse = check getGreetingHi("Ballerina");
-    GreetingResponse expectedResponse = {
-        message: "Hi Ballerina"
-    };
-
-    test:assertEquals(actualResponse, expectedResponse);
+    string userHandleByID = check getUserHandleByID(userServiceClient, "001");
+    test:assertEquals(userHandleByID, "testOrg");    
 
 }
 
