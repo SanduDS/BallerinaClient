@@ -19,7 +19,7 @@ function AfterEach() returns error? {
 }
 
 @test:Config {enable: true, groups: ["pact"]}
-function getGreetingPactTest() returns error? {
+function getUserHandlerByIdPactTest() returns error? {
     pact:Interaction interaction = {
         description: "Get user Org handler by user Id",
         request: {
@@ -40,7 +40,7 @@ function getGreetingPactTest() returns error? {
     string registrationStatus = check pactMockServerClient->registerInteraction(interaction);
     test:assertEquals(registrationStatus.toString().trim(), "Registered interactions", "Registration fails");
     string userHandleByID = check getUserHandleByID(userServiceClient, "001");
-    test:assertEquals(userHandleByID, "testOrg");    
+    test:assertEquals(userHandleByID, "mytestorg");    
 
 }
 
