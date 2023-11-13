@@ -3,8 +3,8 @@ import dhanushkasd/pact;
 
 pact:Client pactMockServerClient = check new ("localhost:1234");
 
-@test:BeforeSuite
-function beforeSuite() returns error? {
+@test:BeforeGroups { value:["pact"]}
+function beforeGroupsFunc() returns error? {
     string mockServiceStatus = check pactMockServerClient->getMockServiceStatus();
     test:assertEquals(mockServiceStatus.toString().trim(), "Mock service running", "Mock server is not running");
 }
@@ -76,7 +76,7 @@ function getGreetingHiPactTest() returns error? {
 
 }
 
-@test:AfterSuite {}
-function afterSuite() returns error? {
+@test:AfterGroups {value: ["pact"]}
+function afterGroupsFunc() returns error? {
     _ = check pactMockServerClient->writePact();
 }
