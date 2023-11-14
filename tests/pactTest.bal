@@ -19,9 +19,35 @@ function AfterEach() returns error? {
 }
 
 @test:Config {enable: true, groups: ["pact"]}
-function getUserHandlerByIdPactTest() returns error? {
+function getUserOrgHandlerByIdPactTest() returns error? {
     pact:Interaction interaction = {
         description: "Get user Org handler by user Id",
+        request: {
+            path: "/user/orghandler/001",
+            method: "GET"
+        },
+        response: {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: {
+                "orghandler":"mytestorg"
+            }
+        }
+    };
+
+    string registrationStatus = check pactMockServerClient->registerInteraction(interaction);
+    test:assertEquals(registrationStatus.toString().trim(), "Registered interactions", "Registration fails");
+    string userHandleByID = check getUserHandleByID(userServiceClient, "001");
+    test:assertEquals(userHandleByID, "mytestorg");    
+
+}
+
+@test:Config {enable: true, groups: ["pact"]}
+function getUserByIdPactTest() returns error? {
+    pact:Interaction interaction = {
+        description: "Get user  by user Id",
         request: {
             path: "/user/001",
             method: "GET"
@@ -39,8 +65,8 @@ function getUserHandlerByIdPactTest() returns error? {
 
     string registrationStatus = check pactMockServerClient->registerInteraction(interaction);
     test:assertEquals(registrationStatus.toString().trim(), "Registered interactions", "Registration fails");
-    string userHandleByID = check getUserHandleByID(userServiceClient, "001");
-    test:assertEquals(userHandleByID, "mytestorg");    
+    User user = check getUserByID(userServiceClient, "001");
+    test:assertEquals(user.id, "001");    
 
 }
 
