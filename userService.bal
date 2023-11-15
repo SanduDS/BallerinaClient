@@ -14,6 +14,6 @@ public isolated function getUserByID(http:Client userServiceClient, string id) r
 }
 
 public isolated function getUserHandleByID(http:Client userServiceClient, string id) returns string|error {
-    json response = check userServiceClient->/user/orghandler/[id];
+    json response = check userServiceClient->/user/orghandle/[id];
     return (check response.orghandler).toString();
 }

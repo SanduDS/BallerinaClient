@@ -25,7 +25,7 @@ function getUserOrgHandlerByIdPactTest() returns error? {
     pact:Interaction interaction = {
         description: "Get user Org handler by user Id",
         request: {
-            path: "/user/orghandler/001",
+            path: "/user/orghandle/001",
             method: "GET"
         },
         response: {
