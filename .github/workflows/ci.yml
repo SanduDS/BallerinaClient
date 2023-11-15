@@ -11,6 +11,8 @@ on:
 jobs:
   ballerina_client_ci_dev:
     runs-on: ubuntu-latest
+    env:
+      APP_VERSION: "0.1.0"
 
     steps:
       - name: Checkout code
@@ -59,7 +61,7 @@ jobs:
             --broker-base-url $PACT_BROKER_URL \
             --broker-username $PACT_BROKER_USERNAME \
             --broker-password $PACT_BROKER_PASSWORD \
-            --consumer-app-version=0.1.0 \
+            --consumer-app-version=$APP_VERSION \
             --auto-detect-version-properties=true \
             --tag-with-git-branch=true
         env:
@@ -92,7 +94,7 @@ jobs:
           ./pact-broker record-deployment \
             --environment=dev \
             -a=BallerinaClient \
-            --version=0.1.0 \
+            --version=$APP_VERSION \
             --broker-username=$PACT_BROKER_USERNAME \
             --broker-password=$PACT_BROKER_PASSWORD \
             -b=$PACT_BROKER_URL
