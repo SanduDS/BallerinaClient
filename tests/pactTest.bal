@@ -34,7 +34,7 @@ function getUserOrgHandlerByIdPactTest() returns error? {
                 "Content-Type": "application/json"
             },
             body: {
-                "orghandler":"mytestorg"
+                "orghandle":"mytestorg"
             }
         }
     };
