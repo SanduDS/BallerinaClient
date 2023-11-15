@@ -8,14 +8,16 @@ http:Client userServiceClient =  check new("localhost:1234");
 @test:BeforeGroups { value:["pact"]}
 function beforeGroupsFunc() returns error? {
     string mockServiceStatus = check pactMockServerClient->getMockServiceStatus();
-    test:assertEquals(mockServiceStatus.toString().trim(), "Mock service running", "Mock server is not running");
+    test:assertEquals(mockServiceStatus.toString().trim(), "Mock service running",
+     "Mock server is not running");
 }
 
 @test:AfterEach
 @test:Config {groups:["pact"]}
 function AfterEach() returns error? {
     string deletionResponse = check pactMockServerClient->deleteInteraction();
-    test:assertEquals(deletionResponse.toString().trim(), "Cleared interactions", "Interaction deletion fails");
+    test:assertEquals(deletionResponse.toString().trim(), "Cleared interactions",
+     "Interaction deletion fails");
 }
 
 @test:Config {enable: true, groups: ["pact"]}
@@ -38,7 +40,8 @@ function getUserOrgHandlerByIdPactTest() returns error? {
     };
 
     string registrationStatus = check pactMockServerClient->registerInteraction(interaction);
-    test:assertEquals(registrationStatus.toString().trim(), "Registered interactions", "Registration fails");
+    test:assertEquals(registrationStatus.toString().trim(), "Registered interactions",
+     "Registration fails");
     string userHandleByID = check getUserHandleByID(userServiceClient, "001");
     test:assertEquals(userHandleByID, "mytestorg");    
 
@@ -64,7 +67,8 @@ function getUserByIdPactTest() returns error? {
     };
 
     string registrationStatus = check pactMockServerClient->registerInteraction(interaction);
-    test:assertEquals(registrationStatus.toString().trim(), "Registered interactions", "Registration fails");
+    test:assertEquals(registrationStatus.toString().trim(), "Registered interactions",
+     "Registration fails");
     User user = check getUserByID(userServiceClient, "001");
     test:assertEquals(user.id, "001");    
 
