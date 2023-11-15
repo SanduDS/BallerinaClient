@@ -1,7 +1,7 @@
 [package]
 org = "dhanushkas"
 name = "UserServiceClient"
-version = "0.1.2"
+version = "0.1.0"
 distribution = "2201.7.2"
 
 [build-options]
