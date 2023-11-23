@@ -12,7 +12,7 @@ jobs:
   ballerina_client_ci_dev:
     runs-on: ubuntu-latest
     env:
-      APP_VERSION: "0.1.1"
+      APP_VERSION: "0.1.0"
 
     steps:
       - name: Checkout code
